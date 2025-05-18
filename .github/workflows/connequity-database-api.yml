@@ -1,0 +1,84 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+name: Build and deploy Docker container to Azure Web App - template-database-api
+
+on:
+  push:
+    branches:
+      - dev
+      - testing
+    paths:
+      - "apps/database/**"
+      - "libs/**" # Include libs since they might be dependencies
+      - "dockerfile"
+      - ".github/workflows/template-database-api.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for proper versioning
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          # Install project dependencies
+          yarn install --frozen-lockfile
+          # Install ts-node globally for running scripts
+          yarn global add ts-node typescript
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: template.azurecr.io
+          username: ${{ secrets.GH_ACTIONS_AZURE_CLIENT_ID }}
+          password: ${{ secrets.GH_ACTIONS_AZURE_CLIENT_SECRET }}
+
+      - name: Create .env file with secrets
+        run: |
+          cat > apps/database/.env << EOL
+          PGHOST=template.azure.com
+          PGUSER=template
+          PGPORT=5432
+          PORT=3030
+          PGDATABASE=template
+          PGPASSWORD=${{ secrets.DEV_PGPASSWORD }}
+          ENVIRONMENT=development
+          IDENTITY_PROVIDER=password
+          DB_SSL=true
+          DB_SSL_REJECT_UNAUTHORIZED=false
+          CLERK_PUBLISHABLE_KEY=${{ secrets.DEV_CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY=${{ secrets.DEV_CLERK_SECRET_KEY }}
+          CLERK_ORG_ID=${{ secrets.DEV_CLERK_CONNEQUITY_ORG_ID }}
+          LINKEDIN_CLIENT_ID=${{ secrets.LINKEDIN_CLIENT_ID }}
+          LINKEDIN_CLIENT_SECRET=${{ secrets.LINKEDIN_CLIENT_SECRET }}
+          SWAGGER_TOKEN=${{ secrets.SWAGGER_PASSWORD }}
+          SWAGGER_USERNAME=${{ secrets.SWAGGER_USERNAME }}
+          EOL
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            template.azurecr.io/template-database:latest
+            template.azurecr.io/template-database:${{ github.sha }}
+          file: ./dockerfiles/dockerfile.database
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

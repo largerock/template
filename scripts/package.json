@@ -1,0 +1,9 @@
+{
+  "name": "@template/scripts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "flatten": "ts-node --transpile-only src/flattner.ts"
+  }
+}

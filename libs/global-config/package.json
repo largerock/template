@@ -1,0 +1,8 @@
+{
+  "name": "@template/global-config",
+  "version": "0.1.0",
+  "private": true,
+  "projectType": "library",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}

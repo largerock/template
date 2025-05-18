@@ -1,0 +1,42 @@
+{
+  "name": "template",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "workspaces": [
+    "apps/*",
+    "libs/*",
+    "scripts"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:css:fix": "stylelint \"**/*.css\" --fix",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@eslint-community/eslint-utils": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "@typescript-eslint/visitor-keys": "^8.32.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.26.0",
+    "eslint-plugin-turbo": "^2.5.2",
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "stylelint": "^16.19.1",
+    "stylelint-config-standard": "^38.0.0",
+    "tailwindcss": "^4.1.5",
+    "tsup": "^8.4.0",
+    "turbo": "^2.5.2",
+    "typescript": "^5.8.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "@clerk/nextjs": "^6.18.5",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.0"
+  }
+}

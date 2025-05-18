@@ -1,0 +1,97 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+name: Build and deploy Web Docker container to Azure Web App
+
+on:
+  push:
+    branches:
+      - dev
+      - release
+    paths:
+      - "apps/template-app/**"
+      - "libs/**" # Include libs since they might be dependencies
+      - "dockerfile.web"
+      - ".github/workflows/template-web-app.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for proper versioning
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          # Install project dependencies
+          yarn install --frozen-lockfile
+          # Install ts-node globally for running scripts
+          yarn global add ts-node typescript
+
+      - name: Log in to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: template.azurecr.io
+          username: ${{ secrets.GH_ACTIONS_AZURE_CLIENT_ID }}
+          password: ${{ secrets.GH_ACTIONS_AZURE_CLIENT_SECRET }}
+
+      # Set environment variables based on branch
+      - name: Set environment variables for dev
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          cat > apps/template-app/.env << EOL
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.DEV_CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY=${{ secrets.DEV_CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
+          SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+          NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+          NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+          NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+          NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+          NEXT_PUBLIC_ENVIRONMENT=development
+          ENVIRONMENT=development
+          EOL
+          cat apps/template-app/.env
+
+      - name: Set environment variables for release
+        if: github.ref == 'refs/heads/release'
+        run: |
+          cat > apps/template-app/.env << EOL
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.PROD_CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY=${{ secrets.PROD_CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
+          SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+          NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+          NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+          NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+          NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+          NEXT_PUBLIC_ENVIRONMENT=production
+          ENVIRONMENT=production
+          EOL
+          cat apps/template-app/.env
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            template.azurecr.io/template-web:latest
+            template.azurecr.io/template-web:${{ github.sha }}
+          file: ./dockerfiles/dockerfile.web
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

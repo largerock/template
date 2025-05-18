@@ -1,0 +1,46 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index",
+    "exclude": [
+      "/images/*",
+      "/*.css",
+      "/*.js",
+      "/*.json",
+      "/*.map",
+      "/*.ico",
+      "/favicon.ico",
+      "/*.svg"
+    ]
+  },
+  "routes": [
+    {
+      "route": "/api/*",
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/_next/static/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/_next/data/*",
+      "headers": {
+        "cache-control": "no-store, max-age=0"
+      }
+    }
+  ],
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/404"
+    }
+  },
+  "globalHeaders": {
+    "content-security-policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.dev https://*.googleapis.com https://*.gstatic.com data:; img-src 'self' https://* data: blob:; font-src 'self' https://* data:; connect-src 'self' https://* wss://* data:; frame-src 'self' https://* mailto:;"
+  },
+  "platform": {
+    "apiRuntime": "node:18"
+  },
+  "trailingSlash": "never"
+}

@@ -1,0 +1,533 @@
+@import "tailwindcss";
+
+/* @import "tailwindcss/preflight"; */
+
+@theme {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar colors */
+  --color-sidebar-background: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Font families */
+  --font-sans: "DM Sans", sans-serif;
+  --font-serif: "Lora", serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Shadows */
+  --shadow-soft: var(--shadow-sm);
+  --shadow-card: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+}
+
+@layer base {
+  :root {
+    --background: oklch(98% 0.01 244.25deg);
+    --foreground: oklch(37% 0.03 259.73deg);
+    --card: oklch(100% 0 0deg);
+    --card-foreground: oklch(37% 0.03 259.73deg);
+    --popover: oklch(100% 0 0deg);
+    --popover-foreground: oklch(37% 0.03 259.73deg);
+    --primary: oklch(72% 0.19 149.58deg);
+    --primary-foreground: oklch(100% 0 0deg);
+    --secondary: oklch(95% 0.03 236.82deg);
+    --secondary-foreground: oklch(45% 0.03 256.8deg);
+    --muted: oklch(97% 0 264.54deg);
+    --muted-foreground: oklch(55% 0.02 264.36deg);
+    --accent: oklch(95% 0.05 163.05deg);
+    --accent-foreground: oklch(37% 0.03 259.73deg);
+    --destructive: oklch(64% 0.21 25.33deg);
+    --destructive-foreground: oklch(100% 0 0deg);
+    --border: oklch(93% 0.01 264.53deg);
+    --input: oklch(93% 0.01 264.53deg);
+    --ring: oklch(72% 0.19 149.58deg);
+    --radius: 0.5rem;
+
+    /* Chart colors */
+    --chart-1: oklch(72% 0.19 149.58deg);
+    --chart-2: oklch(70% 0.15 162.48deg);
+    --chart-3: oklch(60% 0.13 163.23deg);
+    --chart-4: oklch(51% 0.1 165.61deg);
+    --chart-5: oklch(43% 0.09 166.91deg);
+
+    /* Sidebar colors */
+    --sidebar-background: oklch(95% 0.03 236.82deg);
+    --sidebar-foreground: oklch(37% 0.03 259.73deg);
+    --sidebar-primary: oklch(72% 0.19 149.58deg);
+    --sidebar-primary-foreground: oklch(100% 0 0deg);
+    --sidebar-accent: oklch(95% 0.05 163.05deg);
+    --sidebar-accent-foreground: oklch(37% 0.03 259.73deg);
+    --sidebar-border: oklch(93% 0.01 264.53deg);
+    --sidebar-ring: oklch(72% 0.19 149.58deg);
+
+    /* Shadows */
+    --shadow-2xs: 0px 4px 8px -1px hsl(0deg 0% 0% / 5%);
+    --shadow-xs: 0px 4px 8px -1px hsl(0deg 0% 0% / 5%);
+    --shadow-sm:
+      0px 4px 8px -1px hsl(0deg 0% 0% / 10%),
+      0px 1px 2px -2px hsl(0deg 0% 0% / 10%);
+    --shadow:
+      0px 4px 8px -1px hsl(0deg 0% 0% / 10%),
+      0px 1px 2px -2px hsl(0deg 0% 0% / 10%);
+    --shadow-md:
+      0px 4px 8px -1px hsl(0deg 0% 0% / 10%),
+      0px 2px 4px -2px hsl(0deg 0% 0% / 10%);
+    --shadow-lg:
+      0px 4px 8px -1px hsl(0deg 0% 0% / 10%),
+      0px 4px 6px -2px hsl(0deg 0% 0% / 10%);
+    --shadow-xl:
+      0px 4px 8px -1px hsl(0deg 0% 0% / 10%),
+      0px 8px 10px -2px hsl(0deg 0% 0% / 10%);
+    --shadow-2xl: 0px 4px 8px -1px hsl(0deg 0% 0% / 25%);
+  }
+
+  .dark {
+    --background: oklch(21% 0.04 265.75deg);
+    --foreground: oklch(87% 0.01 258.34deg);
+    --card: oklch(28% 0.04 260.03deg);
+    --card-foreground: oklch(87% 0.01 258.34deg);
+    --popover: oklch(28% 0.04 260.03deg);
+    --popover-foreground: oklch(87% 0.01 258.34deg);
+    --primary: oklch(77% 0.15 163.22deg);
+    --primary-foreground: oklch(21% 0.04 265.75deg);
+    --secondary: oklch(34% 0.03 260.91deg);
+    --secondary-foreground: oklch(71% 0.01 286.07deg);
+    --muted: oklch(28% 0.04 260.03deg);
+    --muted-foreground: oklch(55% 0.02 264.36deg);
+    --accent: oklch(37% 0.03 259.73deg);
+    --accent-foreground: oklch(71% 0.01 286.07deg);
+    --destructive: oklch(64% 0.21 25.33deg);
+    --destructive-foreground: oklch(21% 0.04 265.75deg);
+    --border: oklch(45% 0.03 256.8deg);
+    --input: oklch(45% 0.03 256.8deg);
+    --ring: oklch(77% 0.15 163.22deg);
+    --radius: 0.5rem;
+
+    /* Chart colors */
+    --chart-1: oklch(77% 0.15 163.22deg);
+    --chart-2: oklch(78% 0.13 181.91deg);
+    --chart-3: oklch(72% 0.19 149.58deg);
+    --chart-4: oklch(70% 0.15 162.48deg);
+    --chart-5: oklch(60% 0.13 163.23deg);
+
+    /* Sidebar colors */
+    --sidebar-background: oklch(28% 0.04 260.03deg);
+    --sidebar-foreground: oklch(87% 0.01 258.34deg);
+    --sidebar-primary: oklch(77% 0.15 163.22deg);
+    --sidebar-primary-foreground: oklch(21% 0.04 265.75deg);
+    --sidebar-accent: oklch(37% 0.03 259.73deg);
+    --sidebar-accent-foreground: oklch(71% 0.01 286.07deg);
+    --sidebar-border: oklch(45% 0.03 256.8deg);
+    --sidebar-ring: oklch(77% 0.15 163.22deg);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Clerk Components Styling */
+.cl-formButtonPrimary {
+  @apply inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-primary px-3 font-medium text-primary-foreground !shadow-none ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+.cl-card,
+.cl-socialButtonsBlockButton,
+.cl-alert,
+.cl-phoneInputBox,
+.cl-userButtonPopoverCard {
+  @apply rounded-lg border border-input bg-background;
+}
+
+.cl-headerTitle,
+.cl-socialButtonsBlockButtonText,
+.cl-loading,
+.cl-formFieldLabel,
+.cl-formHeaderTitle,
+.cl-selectButton__countryCode,
+.cl-selectButton__countryCode p,
+.cl-selectOption p,
+.cl-selectOption div,
+.cl-modalCloseButton,
+.cl-navbarButton,
+.cl-breadcrumbsItem.cl-breadcrumbsItem__currentPage,
+.cl-profileSectionTitle p,
+.cl-userPreviewTextContainer,
+.cl-profileSectionContent p,
+.cl-form p,
+.cl-accordionTriggerButton {
+  @apply dark:text-foreground;
+}
+
+.cl-headerSubtitle,
+.cl-dividerText,
+.cl-footerActionText,
+.cl-alertText,
+.cl-formFieldInfoText,
+.cl-formFieldSuccessText,
+.cl-identityPreviewText,
+.cl-userButtonPopoverActionButton,
+.cl-userButtonPopoverActionButton svg,
+.cl-userButtonPopoverActionButtonText,
+.cl-userButtonPopoverFooter p,
+.cl-userButtonPopoverFooter a,
+.cl-formHeaderSubtitle,
+.cl-breadcrumbsItem,
+.cl-breadcrumbsItemDivider,
+.cl-fileDropAreaHint,
+.cl-fileDropAreaFooterHint,
+.cl-form
+  p[data-localization-key="userProfile.emailAddressPage.emailCode.formHint"],
+p[data-localization-key="userProfile.profilePage.successMessage"] {
+  @apply text-muted-foreground;
+}
+
+.cl-dividerLine {
+  @apply bg-border;
+}
+
+.cl-formFieldInput[type="text"],
+.cl-formFieldInput[type="email"],
+.cl-formFieldInput[type="password"] {
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-foreground ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.cl-footerActionLink {
+  @apply text-accent-foreground underline hover:text-accent-foreground/90;
+}
+
+.cl-otpCodeFieldInput {
+  @apply !border !border-input text-foreground;
+}
+
+.cl-formResendCodeLink {
+  @apply text-primary disabled:opacity-90;
+}
+
+.cl-selectSearchInput__countryCode {
+  @apply flex h-10 w-full rounded-md border border-b border-input bg-background text-foreground ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.cl-selectOptionsContainer__countryCode {
+  @apply border border-input bg-background;
+}
+
+.cl-internal-icon,
+.cl-userPreviewSecondaryIdentifier__userButton {
+  @apply text-foreground;
+}
+
+button[data-localization-key="userProfile.start.dangerSection.deleteAccountButton"] {
+  @apply bg-destructive text-destructive-foreground hover:bg-destructive/90;
+}
+
+.cl-fileDropAreaBox {
+  @apply dark:bg-gray-900;
+}
+
+.cl-fileDropAreaIconBox {
+  @apply dark:bg-gray-800;
+}
+
+.cl-fileDropAreaIcon {
+  @apply dark:text-gray-400;
+}
+
+.cl-fileDropAreaButtonPrimary {
+  @apply h-10 px-4 py-2 text-foreground transition-colors hover:bg-secondary hover:text-accent-foreground;
+}
+
+.cl-userButtonPopoverActionButton,
+.cl-profileSectionPrimaryButton,
+.cl-accordionTriggerButton,
+.cl-navbarButton {
+  @apply hover:bg-accent hover:text-accent-foreground;
+}
+
+.cl-card {
+  @apply rounded-lg shadow-md;
+}
+
+.cl-userButtonPopoverCard {
+  @apply rounded-md;
+}
+
+.cl-userButtonPopoverFooter a {
+  @apply hover:text-muted-foreground;
+}
+
+.cl-badge {
+  @apply rounded-full border border-input bg-background px-2.5 py-0.5 text-xs text-foreground !shadow-none;
+}
+
+.cl-badge[data-localization-key="badge__unverified"] {
+  @apply border bg-transparent text-destructive dark:text-red-500;
+}
+
+.cl-formButtonReset {
+  @apply text-foreground hover:bg-secondary;
+}
+
+.cl-footer {
+  @apply rounded-b-lg border-x border-b bg-background bg-gradient-to-t from-background to-background  text-muted-foreground;
+}
+
+.cl-userButtonPopoverFooter {
+  @apply rounded-b-lg bg-gradient-to-t from-background to-background;
+}
+
+.cl-signIn-start,
+.cl-signUp-start,
+.cl-signIn-password,
+.cl-signIn-alternativeMethods,
+.cl-signIn-emailCode {
+  @apply rounded-b-none border-b-0;
+}
+
+.cl-cardBox {
+  @apply rounded-lg shadow-sm;
+}
+
+.cl-socialButtonsBlockButton {
+  @apply h-10 !border;
+}
+
+.cl-alternativeMethods .cl-alternativeMethodsBlockButton {
+  @apply h-10 !border border-input text-muted-foreground;
+}
+
+.cl-alternativeMethodsBlockButton {
+  @apply h-10 !shadow-none;
+}
+
+.cl-navbar {
+  @apply rounded-lg border-y border-l bg-gradient-to-t from-background to-background;
+}
+
+.cl-scrollBox {
+  @apply rounded-lg rounded-l-none border border-input bg-gradient-to-t from-background to-background;
+}
+
+h1[data-localization-key="userProfile.navbar.title"] {
+  @apply text-foreground;
+}
+
+.cl-profilePage > .cl-header {
+  @apply border-b;
+}
+
+.cl-profileSection__profile,
+.cl-profileSection__emailAddresses {
+  @apply border-b;
+}
+
+.cl-menuButton {
+  @apply text-foreground hover:text-foreground;
+}
+
+.cl-menuList {
+  @apply border border-input bg-background;
+}
+
+.cl-actionCard {
+  @apply border border-input bg-background;
+}
+
+.cl-menuItem[data-color="neutral"] {
+  @apply text-foreground hover:bg-muted;
+}
+
+.cl-avatarImageActionsUpload {
+  @apply !border border-input text-foreground;
+}
+
+.cl-userButtonPopoverMain {
+  @apply rounded-lg border-input bg-background;
+}
+
+.cl-navbarMobileMenuRow {
+  @apply rounded-lg border-x border-t bg-gradient-to-t from-background to-background;
+}
+
+.cl-navbarMobileMenuButton {
+  @apply text-foreground;
+}
+
+/* Additional Clerk Dark Mode */
+.dark .cl-headerTitle,
+.dark .cl-socialButtonsBlockButtonText,
+.dark .cl-loading,
+.dark .cl-formFieldLabel,
+.dark .cl-formHeaderTitle,
+.dark .cl-selectButton__countryCode,
+.dark .cl-selectButton__countryCode p,
+.dark .cl-selectOption p,
+.dark .cl-selectOption div,
+.dark .cl-modalCloseButton,
+.dark .cl-navbarButton,
+.dark .cl-breadcrumbsItem.cl-breadcrumbsItem__currentPage,
+.dark .cl-profileSectionTitle p,
+.dark .cl-userPreviewTextContainer,
+.dark .cl-profileSectionContent p,
+.dark .cl-form p,
+.dark .cl-accordionTriggerButton,
+.dark .cl-formFieldInput {
+  @apply text-foreground;
+}
+
+.dark .cl-headerSubtitle,
+.dark .cl-dividerText,
+.dark .cl-footerActionText,
+.dark .cl-alertText,
+.dark .cl-formFieldInfoText,
+.dark .cl-formFieldSuccessText,
+.dark .cl-identityPreviewText,
+.dark .cl-userButtonPopoverActionButton,
+.dark .cl-userButtonPopoverActionButton svg,
+.dark .cl-userButtonPopoverActionButtonText,
+.dark .cl-userButtonPopoverFooter p,
+.dark .cl-userButtonPopoverFooter a,
+.dark .cl-formHeaderSubtitle,
+.dark .cl-breadcrumbsItem,
+.dark .cl-breadcrumbsItemDivider,
+.dark .cl-fileDropAreaHint,
+.dark .cl-fileDropAreaFooterHint {
+  @apply text-muted-foreground;
+}
+
+.dark .cl-card,
+.dark .cl-socialButtonsBlockButton,
+.dark .cl-alert,
+.dark .cl-phoneInputBox,
+.dark .cl-userButtonPopoverCard {
+  @apply bg-card border-border;
+}
+
+.dark .cl-formFieldInput[type="text"],
+.dark .cl-formFieldInput[type="email"],
+.dark .cl-formFieldInput[type="password"] {
+  @apply bg-card text-foreground border-border;
+}
+
+.dark .cl-otpCodeFieldInput {
+  @apply border-border text-foreground;
+}
+
+/* Button text colors */
+.dark .cl-formButtonPrimary {
+  @apply text-primary-foreground;
+}
+
+/* Selector options */
+.dark .cl-selectOptionsContainer__countryCode {
+  @apply bg-card border-border;
+}
+
+/* Input backgrounds */
+.dark .cl-formFieldInput__phone,
+.dark .cl-formFieldInputGroup__phone {
+  @apply bg-card;
+}
+
+/* Footer and user button */
+.dark .cl-footer,
+.dark .cl-userButtonPopoverFooter {
+  @apply bg-card border-border;
+}
+
+/* Dropdown item */
+.dark .cl-menuItem {
+  @apply text-foreground hover:bg-muted;
+}
+
+/* Avatar upload button */
+.dark .cl-avatarImageActionsUpload {
+  @apply text-foreground border-border;
+}
+
+.dark .cl-userButtonPopoverActions {
+  @apply bg-card text-foreground;
+}
+
+/* Action buttons */
+.dark .cl-userButtonPopoverActionButton,
+.dark .cl-userButtonPopoverAction {
+  @apply text-foreground hover:bg-muted;
+}
+
+/* Action button text */
+.dark .cl-userButtonPopoverActionButtonText {
+  @apply text-foreground;
+}
+
+/* Action button icons */
+.dark .cl-userButtonPopoverActionButtonIcon,
+.dark .cl-userButtonPopoverActionButton svg {
+  @apply text-foreground;
+}
+
+/* User profile link */
+.dark .cl-userButtonPopoverActionLink,
+.dark .cl-userButtonPopoverActionLinkText {
+  @apply text-foreground hover:bg-muted;
+}
+
+/* Icons */
+.dark .cl-userButtonPopoverActionButtonIcon svg,
+.dark .cl-userButtonPopoverActionLinkIcon svg {
+  @apply text-foreground;
+}
+
+.dark .cl-userButtonPopoverCustomItemButton {
+  color: var(--color-foreground) !important;
+}
+
+/* Custom wide dialog */
+.dialog-wide {
+  max-width: 90vw !important;
+  width: 1000px !important;
+}

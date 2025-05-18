@@ -1,0 +1,48 @@
+# ---------------------------------------------
+# Build stage
+# ---------------------------------------------
+  FROM node:22-slim AS build
+  WORKDIR /app
+
+  # Copy root package.json, yarn.lock, and turbo.json for monorepo setup
+  COPY package.json yarn.lock turbo.json tsconfig.json ./
+
+  # Copy the database package files
+  COPY apps/database ./apps/database
+  # Copy any shared libs that database might depend on
+  COPY libs ./libs
+
+  # Install global dependencies
+  RUN yarn global add typescript
+
+  # Install all dependencies (needed for the monorepo build)
+  RUN yarn install
+
+  # Build the database project
+  WORKDIR /app
+  RUN yarn workspace @template/database build
+
+  # Verify build output
+  RUN echo "Listing database dist folder:" && ls -la /app/apps/database/dist
+
+  # ---------------------------------------------
+  # Production stage
+  # ---------------------------------------------
+  FROM node:22-slim
+  WORKDIR /app
+
+  # Copy package.json for the database app
+  COPY --from=build /app/apps/database/package.json ./
+
+  # Install only production dependencies
+  RUN yarn install --production
+
+  # Copy built app from build stage
+  COPY --from=build /app/apps/database/dist ./dist
+
+  # Copy .env file if it exists
+  COPY --from=build /app/apps/database/.env ./.env
+  EXPOSE 3030
+
+  # Start the database app
+  CMD ["yarn", "start"]
